@@ -10,20 +10,20 @@ graph TD
     classDef algo fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,stroke-dasharray: 5 5;
 
     subgraph "1. 状态输入 (State Space)"
-        Z_global[("全局状态向量 z_global<br>(来自第三章 GNN 模型)")]:::input
+        Z_global["全局状态向量 z_global<br>(来自第三章 GNN 模型)"]:::input
     end
 
     subgraph "2. 智能体决策 (PPO Agent)"
-        Actor[("Actor 策略网络<br>(MLP)")]:::agent
-        Critic[("Critic 价值网络<br>(MLP)")]:::agent
+        Actor["Actor 策略网络<br>(MLP)"]:::agent
+        Critic["Critic 价值网络<br>(MLP)"]:::agent
         
         Z_global --> Actor
         Z_global --> Critic
     end
 
     subgraph "3. 分层动作生成 (Hierarchical Action)"
-        Logits[动作概率分布 P(a|s)]:::action
-        Sampling[随机采样 / 贪婪选择]:::action
+        Logits["动作概率分布 P(a|s)"]:::action
+        Sampling["随机采样 / 贪婪选择"]:::action
         
         Actor --> Logits --> Sampling
         
@@ -41,9 +41,9 @@ graph TD
     end
 
     subgraph "4. 环境交互 (Environment)"
-        Exec[执行扩缩容动作 a_t]:::env
-        K8s[Kubernetes 集群]:::env
-        NewState[新状态 s_{t+1}]:::env
+        Exec["执行扩缩容动作 a_t"]:::env
+        K8s["Kubernetes 集群"]:::env
+        NewState["新状态 s_{t+1}"]:::env
         
         Action_Masking --"合法动作"--> Exec
         Exec --> K8s
@@ -51,7 +51,7 @@ graph TD
     end
 
     subgraph "5. 复合奖励计算 (Reward Function)"
-        R_calc[计算奖励 r_t]:::reward
+        R_calc["计算奖励 r_t"]:::reward
         R_SLO["服务质量奖励 (R_slo)<br>P99延迟 vs SLO阈值"]:::reward
         R_Cost["资源成本惩罚 (R_cost)<br>资源消耗量"]:::reward
         R_Stab["稳定性惩罚 (R_stab)<br>抑制频繁抖动"]:::reward
@@ -63,10 +63,10 @@ graph TD
     end
 
     subgraph "6. 策略优化 (PPO Update)"
-        Buffer[轨迹收集 (Trajectories)]:::algo
-        Advantage[计算优势函数 (GAE)]:::algo
-        Loss[计算 PPO-Clip 损失]:::algo
-        Update[反向传播更新 θ, φ]:::algo
+        Buffer["轨迹收集 (Trajectories)"]:::algo
+        Advantage["计算优势函数 (GAE)"]:::algo
+        Loss["计算 PPO-Clip 损失"]:::algo
+        Update["反向传播更新 θ, φ"]:::algo
         
         NewState --> Buffer
         R_calc --> Buffer
